@@ -65,7 +65,7 @@ const Main = () => {
       <div className="container-sm">
         <button onClick={logout} className="logout" >Logout</button>
         <button onClick={deleteAccount} className="delete">Delete Account</button>
-        <h1 className="title">{localStorage.getItem("name")}, Welcome to Elecctro Todo List</h1>
+        <h1 className="title">{localStorage.getItem("name")}, Welcome to Elecctro To Do List</h1>
         <Button onClick={toggleShowCompleted}>
           {showCompleted ? "Hide Completed" : "Ver todos"}
         </Button>
