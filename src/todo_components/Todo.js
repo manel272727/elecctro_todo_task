@@ -25,20 +25,18 @@ const Todo = ({ task, markComplete, deleteTodo, editTodo }) => {
         >
           {task.task}
         </label>
-        <p>Created at: {task.createdAt}</p> {/* Display createdAt timestamp */}
+        <p>Created at: {task.createdAt}</p> 
       </div>
 
-      <div className="d-flex align-items-center">
+      <div className="d-flex align-items-center m3">
         <FontAwesomeIcon
-          className="fa-3x"
+          className="fa-2x"
           icon={faPenToSquare}
           onClick={() => editTodo(task.id)}
         />
 
-        
-
         <FontAwesomeIcon
-          className="fa-3x"
+          className="fa-2x"
           icon={faTrash}
           onClick={() => deleteTodo(task.id)}
         />

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
+import '../App.css'; 
 
 const FormTodo = ({ addTodo }) => {
   const [value, setValue] = useState("");
@@ -20,6 +21,7 @@ const FormTodo = ({ addTodo }) => {
           value={value}
           placeholder="Escreve aqui as tuas tarefas"
           onChange={(e) => setValue(e.target.value)}
+          required
         />
         
         <Button className="todo-btn"  variant="primary" type="submit">Adicionar</Button>

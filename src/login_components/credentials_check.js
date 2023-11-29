@@ -65,7 +65,7 @@ const CredentialsCheck = () => {
         <Main />
       ) : show ? (
         <>
-        <h1>{typedMessage}</h1>
+        
         <div className="container">
           <form className="form" onSubmit={handleSignIn}>
             <div className="fields">
@@ -79,10 +79,11 @@ const CredentialsCheck = () => {
         </div>
         </>
       ) : (
-        
+        <>
+        <h1 className="welcome-message">{typedMessage}</h1>
         <div className="container">
           <form className="form" onSubmit={handleSignUp}>
-          <h1>Registo</h1>
+          <h1>Criar Conta</h1>
           <div className="fields">
             <input placeholder="name" type="text" ref={name} />
           </div>
@@ -96,6 +97,7 @@ const CredentialsCheck = () => {
           <button type="submit">Registar</button>
           </form>
         </div>
+        </>
       )}
 
     </div>

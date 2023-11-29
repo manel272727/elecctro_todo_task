@@ -4,7 +4,12 @@ import { v4 as uuidv4 } from "uuid";
 import Todo from "./Todo";
 import EditTodo from "./EditTodo";
 import '../App.css'; 
-import { Button } from "react-bootstrap";
+import { Button, Dropdown } from "react-bootstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; // Import the icons you need
+import { CSSTransition, TransitionGroup } from 'react-transition-group'; // Import CSSTransition and TransitionGroup
+
+
 uuidv4();
 
 const Main = () => {
@@ -61,33 +66,61 @@ const Main = () => {
   }
 
   return (
-    <div className="d-flex justify-content-center align-items-center">
+    <div className="d-flex justify-content-center align-items-center ">
       <div className="container-sm">
-        <button onClick={logout} className="logout" >Logout</button>
-        <button onClick={deleteAccount} className="delete">Delete Account</button>
-        <h1 className="title">{localStorage.getItem("name")}, Welcome to Elecctro To Do List</h1>
-        <Button onClick={toggleShowCompleted}>
-          {showCompleted ? "Hide Completed" : "Ver todos"}
-        </Button>
+        <div className="dropdown-wrapper">
+          <Dropdown className="dropdown">
+            <Dropdown.Toggle variant="primary" id="dropdown-basic">
+              Options
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
+              <Dropdown.Item onClick={deleteAccount}>
+                Delete Account
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+        <img
+          className="logo-elecctro"
+          src="https://elecctro.com/wp-content/uploads/thegem-logos/logo_a5dc58ba2877528bdcbe9d018b14ee0b_1x.png"
+          alt="Elecctro Logo"
+        />
+        <div className="btn-show-all">
+          <Button onClick={toggleShowCompleted}>
+            {showCompleted ? (
+              <>
+                <FontAwesomeIcon icon={faEyeSlash} /> 
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faEye} /> 
+              </>
+            )}
+          </Button>
+        </div>
         <FormTodo addTodo={addTodo} />
-        <div>
+        <TransitionGroup className="input-container">
           {todos.map((todo, index) =>
-            (showCompleted || !todo.completed) ? (
-              todo.isEditing ? (
-                <EditTodo key={todo.id} editTodo={editTask} task={todo} />
-              ) : (
-                <Todo
-                  key={todo.id}
-                  task={todo}
-                  markComplete={doneTasks}
-                  deleteTodo={deleteTodo}
-                  editTodo={editTodo}
-                  createdAt
-                />
-              )
+            showCompleted || !todo.completed ? (
+              <CSSTransition key={todo.id} timeout={300} classNames="todo-item">
+                {todo.isEditing ? (
+                  <EditTodo key={todo.id} editTodo={editTask} task={todo} />
+                ) : (
+                  <Todo
+                    key={todo.id}
+                    task={todo}
+                    markComplete={doneTasks}
+                    deleteTodo={deleteTodo}
+                    editTodo={editTodo}
+                    createdAt
+                  />
+                )}
+              </CSSTransition>
             ) : null
           )}
-        </div>
+        </TransitionGroup>
       </div>
     </div>
   );
