@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/elecctro_todo_task/static/css/main.9ca37a9c.css",
+    "main.js": "/elecctro_todo_task/static/js/main.fc99f31e.js",
+    "index.html": "/elecctro_todo_task/index.html",
+    "main.9ca37a9c.css.map": "/elecctro_todo_task/static/css/main.9ca37a9c.css.map",
+    "main.fc99f31e.js.map": "/elecctro_todo_task/static/js/main.fc99f31e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9ca37a9c.css",
+    "static/js/main.fc99f31e.js"
+  ]
+}
