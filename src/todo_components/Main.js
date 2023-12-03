@@ -1,56 +1,17 @@
 import React, { useState, useEffect } from "react";
 import FormTodo from "./FormTodo";
 import { v4 as uuidv4 } from "uuid";
-import Todo from "./Todo";
-import EditTodo from "./EditTodo";
 import '../App.css'; 
 import { Button, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; // Import the icons you need
-import { CSSTransition, TransitionGroup } from 'react-transition-group'; // Import CSSTransition and TransitionGroup
-
+import { faEye, faEyeSlash, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 uuidv4();
 
 const Main = () => {
-  const [todos, setTodos] = useState([]);
-  const [showCompleted, setShowCompleted] = useState(false);
   const [fetchedTodos, setFetchedTodos] = useState([]);
-
-  const addTodo = (todo) => {
-    setTodos([
-      ...todos,
-      { id: uuidv4(), task: todo, completed: false, isEditing: false, createdAt: new Date().toLocaleString() },
-    ]);
-  };
-
-  const doneTasks = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
-  };
-
-  const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
-
-  const editTodo = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, isEditing: !todo.isEditing } : todo
-      )
-    );
-  };
-
-  const editTask = (task, id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, task, isEditing: !todo.isEditing } : todo
-      )
-    );
-  };
+  const [showCompleted, setShowCompleted] = useState(false);
 
   const fetchTodos = async () => {
     try {
@@ -61,7 +22,6 @@ const Main = () => {
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.includes('application/json')) {
         const data = await response.json();
-        setTodos(data);
         setFetchedTodos(data);
       } else {
         const text = await response.text();
@@ -72,28 +32,36 @@ const Main = () => {
     }
   };
   
-
   useEffect(() => {
     fetchTodos(); // Fetch todos when the component mounts
   }, []);
 
-  const handleFetchTodos = () => {
-    fetchTodos(); // Call the fetch function to retrieve todos when the button is clicked
+  const deleteTodo = async (id) => {
+    // Implement logic to delete the todo using API call
+    // Update the UI by filtering out the deleted todo
+    setFetchedTodos(fetchedTodos.filter(todo => todo.id !== id));
   };
 
+  const editTodo = async (id) => {
+    // Implement logic to edit the todo using API call
+    // Update the UI if necessary after editing
+  };
 
   const toggleShowCompleted = () => {
     setShowCompleted(!showCompleted);
   };
 
+
+
+
   const logout = () => {
-    localStorage.removeItem("signUp")
-    window.location.reload()
-  }
+        localStorage.removeItem("signUp")
+        window.location.reload()
+      }
   const deleteAccount = () => {
-    localStorage.clear()
-    window.location.reload()
-  }
+        localStorage.clear()
+        window.location.reload()
+      }
 
   return (
     <div className="d-flex justify-content-center align-items-center ">
@@ -130,44 +98,31 @@ const Main = () => {
             )}
           </Button>
         </div>
-        <FormTodo addTodo={addTodo} />
+        <FormTodo />
         <TransitionGroup className="input-container">
-          {todos.map((todo, index) =>
-            showCompleted || !todo.completed ? (
-              <CSSTransition key={todo.id} timeout={300} classNames="todo-item">
-                {todo.isEditing ? (
-                  <EditTodo key={todo.id} editTodo={editTask} task={todo} />
-                ) : (
-                  <Todo
-                    key={todo.id}
-                    task={todo}
-                    markComplete={doneTasks}
-                    deleteTodo={deleteTodo}
-                    editTodo={editTodo}
-                    createdAt
-                  />
-                )}
+          <div className="todo-cards">
+            {fetchedTodos.map((todo) => (
+              <CSSTransition key={todo.id} timeout={500} classNames="card">
+                <div className="card">
+                  <label>
+                    {todo.todo_body}
+                    <FontAwesomeIcon
+                      icon={faPenToSquare}
+                      onClick={() => editTodo(todo.id)}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      onClick={() => deleteTodo(todo.id)}
+                    />
+                  </label>
+                </div>
               </CSSTransition>
-            ) : null
-          )}
+            ))}
+          </div>
         </TransitionGroup>
-        <Button onClick={handleFetchTodos}>
-              HERE TO FETCH   
-        </Button>
-        <div>
-        <h2>Fetched Todos:</h2>
-        <ul>
-          {fetchedTodos.map(todo => (
-            // <li key={todo.id}>{todo.task}</li>
-            <li key={todo.id}>{todo.todo_body}</li>
-          ))}
-        </ul>
-      </div>
-      
       </div>
     </div>
   );
 };
-
 
 export default Main;

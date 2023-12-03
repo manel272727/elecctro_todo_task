@@ -13,7 +13,7 @@ const CredentialsCheck = () => {
   const [goTodo, setGoTodo] = useState(false);
   const [show, setShow] = useState(false);
 
-  const welcomeMessage = 'Bem-vindo ao Todo Electro, onde você pode organizar as suas ideias';
+  const welcomeMessage = '  Olá, aqui pode registar e organizar as suas tarefas!';
   const [typedMessage, setTypedMessage] = useState('');
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const CredentialsCheck = () => {
       ) : show ? (
         <>
         
-        <div className="container">
+        <div className="container-login-register">
           <form className="form" onSubmit={handleSignIn}>
             <div className="fields">
               <input placeholder="Email" type="email" ref={email} />
@@ -81,7 +81,7 @@ const CredentialsCheck = () => {
       ) : (
         <>
         <h1 className="welcome-message">{typedMessage}</h1>
-        <div className="container">
+        <div className="container-login-register">
           <form className="form" onSubmit={handleSignUp}>
           <h1>Criar Conta</h1>
           <div className="fields">
