@@ -4,14 +4,22 @@ import { v4 as uuidv4 } from "uuid";
 import '../App.css'; 
 import { Button, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import CardModal from "./ModalEdit"; 
+
 
 uuidv4();
 
 const Main = () => {
   const [fetchedTodos, setFetchedTodos] = useState([]);
   const [showCompleted, setShowCompleted] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const [selectedTodo, setSelectedTodo] = useState(null);
+
+
+
 
   const fetchTodos = async () => {
     try {
@@ -33,19 +41,25 @@ const Main = () => {
   };
   
   useEffect(() => {
-    fetchTodos(); // Fetch todos when the component mounts
+    fetchTodos(); 
   }, []);
 
   const deleteTodo = async (id) => {
-    // Implement logic to delete the todo using API call
-    // Update the UI by filtering out the deleted todo
-    setFetchedTodos(fetchedTodos.filter(todo => todo.id !== id));
+    try {
+      const response = await fetch(`http://localhost:3001/api/todos/${id}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to delete todo: ${response.statusText}`);
+      }
+  
+      setFetchedTodos(fetchedTodos.filter(todo => todo.id !== id));
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+    }
   };
-
-  const editTodo = async (id) => {
-    // Implement logic to edit the todo using API call
-    // Update the UI if necessary after editing
-  };
+  
 
   const toggleShowCompleted = () => {
     setShowCompleted(!showCompleted);
@@ -62,6 +76,17 @@ const Main = () => {
         localStorage.clear()
         window.location.reload()
       }
+
+
+  const openModal = (todo) => {
+    setSelectedTodo(todo);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setSelectedTodo(null);
+    setShowModal(false);
+  };
 
   return (
     <div className="d-flex justify-content-center align-items-center ">
@@ -100,26 +125,41 @@ const Main = () => {
         </div>
         <FormTodo />
         <TransitionGroup className="input-container">
-          <div className="todo-cards">
+          <div className="todo-cards" >
             {fetchedTodos.map((todo) => (
+              <>
               <CSSTransition key={todo.id} timeout={500} classNames="card">
-                <div className="card">
-                  <label>
-                    {todo.todo_body}
-                    <FontAwesomeIcon
-                      icon={faPenToSquare}
-                      onClick={() => editTodo(todo.id)}
-                    />
+                <div className="card-container">
+                  <div className="card" onClick={() => openModal(todo)}>
+                    <label>{todo.todo_body}</label>
+                    <label>{new Date(todo.createdat).toLocaleString('pt-PT')}</label>
+                  </div>
+                  <div className="delete-icon">
                     <FontAwesomeIcon
                       icon={faTrash}
                       onClick={() => deleteTodo(todo.id)}
                     />
-                  </label>
+                  </div>
                 </div>
               </CSSTransition>
+
+               <div>
+                <FontAwesomeIcon
+                      icon={faTrash}
+                      onClick={() => deleteTodo(todo.id)}
+                    />
+                </div> 
+                </>
             ))}
           </div>
         </TransitionGroup>
+        {selectedTodo && (
+        <CardModal
+          show={showModal}
+          handleClose={closeModal}
+          todo={selectedTodo}
+        />
+      )}
       </div>
     </div>
   );

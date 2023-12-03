@@ -46,7 +46,7 @@ const FormTodo = ({ addTodo }) => {
         <Button
           className="todo-btn"
           variant="primary"
-          onClick={handleButtonClick} // Call handleButtonClick when clicked
+          onClick={handleButtonClick}
           type="submit"
         >
           Adicionar
