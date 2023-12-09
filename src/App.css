@@ -10,7 +10,8 @@ body {
 
 .container-sm {
   background-color: white;
-  min-height: 600px;
+  margin-top: 20%;
+  min-height: 700px;
   min-width: 900px;
   width: auto;
   max-height: 70vh;
@@ -145,24 +146,31 @@ header h1 {
 }
 
 .card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 10px;
-  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #f9f9f9;
   transition: all 0.3s ease;
+  width: 100%; /* Set width to 100% for the card to take up the container's width */
+  max-width: 800px; /* Adjust the maximum width of the card */
+  padding: 20px; /* Add padding to space out content */
+  box-sizing: border-box; /* Include padding in the total width */
 }
+
+
+.card-content {
+  display: flex;
+  align-items: center; /* Center items vertically */
+}
+
 
 .card:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 4px rgba(0, 0, 0, 0.1);
 }
-
-
-
-
-
-
 
 
 .complete {
@@ -215,10 +223,91 @@ button :focus {
 
 /* END OF TRANSITIONS  */
 
+.card-radio-container {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 20px; /* Adjust margin as needed */
+}
+
+
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+
+.radio-button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 10px;
+}
+
+.radio-button {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+
+.delete-icon {
+  margin-left: 5px; /* Adjust margin between card and trash icon */
+  cursor: pointer;
+}
+
+.radio-button input[type="checkbox"] {
+  margin-right: 5px; /* Adjust margin between checkbox and card */
+  width: 80%;
+}
+
+.todo-body {
+  flex: 1; /* Allow todo body to take up remaining space on the left */
+}
+
+.todo-separator {
+  margin: 0 10px; /* Adjust spacing around the separator */
+  height: 100%; /* Set height to 100% to take up full height of the card-content */
+  display: flex;
+  align-items: center; /* Center the separator vertically */
+}
+
+.todo-dates {
+  display: flex;
+  flex-direction: column; /* Display dates in a column layout */
+  align-items: flex-end; /* Align dates to the right */
+}
+
+.todo-dates label {
+  margin-bottom: 5px; /* Add spacing between date labels */
+}
+
+.modal-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
 
 @media screen and (max-width: 768px) {
   .container-sm {
     min-width: unset; 
     padding: 0 10px; 
   }
+
+    .card {
+      flex-direction: column;
+    }
+  
+    .delete-icon {
+      margin-left: 0;
+      margin-top: 10px; /* Adjust margin for button placement */
+    }
+
 }
+
+
+
