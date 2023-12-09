@@ -24,12 +24,9 @@ const SignUp = ({ history }) => {
         password
       });
 
-      // Handle the response accordingly
       if (response.status === 201) {
-        // Registration successful, navigate to the main page
-        navigate('/main'); // Replace '/main' with your main page route
+        navigate('/main'); 
       } else {
-        // Handle other cases
         setError("Registration failed");
       }
     } catch (error) {
@@ -39,7 +36,7 @@ const SignUp = ({ history }) => {
   };
 
   return (
-    <div className="container"> {/* Enclosing container */}
+    <div className="container"> 
       <div className="signup-form">
         <h1 className="signup-name">Registo</h1>
         <form onSubmit={handleSignUp}>

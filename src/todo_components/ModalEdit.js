@@ -69,9 +69,6 @@ const CardModal = ({ show, handleClose, todo }) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        {/* <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button> */}
         <Button variant="success" onClick={handleEdit}>
           Edit
         </Button>

@@ -16,7 +16,7 @@ const Main = () => {
   const [showCompleted, setShowCompleted] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [completedTodos, setCompletedTodos] = useState([]);
-  const [sortOrder, setSortOrder] = useState("date"); // Default sort order by date
+  const [sortOrder, setSortOrder] = useState("date");
   const navigate = useNavigate();
 
   
@@ -32,7 +32,6 @@ const Main = () => {
       if (contentType && contentType.includes("application/json")) {
         const data = await response.json();
   
-        // Sort todos by date (newest to oldest)
         const sortedTodos = data.sort((a, b) => {
           return new Date(b.createdat) - new Date(a.createdat);
         });
@@ -151,11 +150,7 @@ const Main = () => {
           throw new Error(`Failed to delete account: ${response.statusText}`);
         }
     
-        // Clear any stored user data or tokens from the client-side
-    
-        // Perform necessary actions after successful deletion
         navigate('/');
-        // window.location.href = "/login"; // Redirect to the login page
       } catch (error) {
         console.error("Error deleting account:", error);
       }
