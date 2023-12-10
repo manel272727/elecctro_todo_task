@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import Button from 'react-bootstrap/Button';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
 import '../App.css'; 
 
 const FormTodo = ({ addTodo }) => {
@@ -19,7 +21,9 @@ const FormTodo = ({ addTodo }) => {
         throw new Error('Failed to add todo');
       }
 
-      addTodo(value);
+      // Get the newly added todo from the response
+      const newTodo = await response.json();
+      addTodo(newTodo); // Update the list of todos in Main component
       setValue("");      
     } catch (error) {
       console.error('Error adding todo:', error);
@@ -29,7 +33,6 @@ const FormTodo = ({ addTodo }) => {
   const handleButtonClick = (e) => {
     e.preventDefault();
     handleSubmit();
-    window.location.reload(); ///THIS HAS TO BE CHANGED///
   };
 
   return (
@@ -43,14 +46,13 @@ const FormTodo = ({ addTodo }) => {
           onChange={(e) => setValue(e.target.value)}
           required
         />
-        <Button
-          className="todo-btn"
-          variant="primary"
+        <button
+          className="circular-button" // Apply the circular-button class here
           onClick={handleButtonClick}
           type="submit"
         >
-          Adicionar
-        </Button>
+          <FontAwesomeIcon icon={faPlus} />
+        </button>
       </div>
     </form>
   );

@@ -63,8 +63,11 @@ const Main = () => {
           b.todo_body.localeCompare(a.todo_body, "en", { sensitivity: "base" })
         );
         break;
-      case "date":
+      case "new-old":
         sortedTodos.sort((a, b) => new Date(b.createdat) - new Date(a.createdat));
+        break;
+      case "old-new":
+        sortedTodos.sort((a, b) => new Date(a.createdat) - new Date(b.createdat));
         break;
       default:
         break;
@@ -73,30 +76,11 @@ const Main = () => {
   };
 
 
-
-  const handleSort = () => {
-    switch (sortOrder) {
-      case "A-Z":
-        sortTodos("Z-A");
-        setSortOrder("Z-A");
-        break;
-      case "Z-A":
-        sortTodos("date");
-        setSortOrder("date");
-        break;
-      case "date":
-        sortTodos("A-Z");
-        setSortOrder("A-Z");
-        break;
-      default:
-        break;
-    }
+  const handleSortSelection = (selectedOption) => {
+    setSortOrder(selectedOption);
+    sortTodos(selectedOption);
   };
 
-
-
-
-  
 
   useEffect(() => {
     fetchTodos();
@@ -143,7 +127,6 @@ const Main = () => {
       try {
         const response = await fetch("http://localhost:3001/api/deleteAccount", {
           method: "DELETE",
-          // Optionally, include any necessary headers or credentials here
         });
     
         if (!response.ok) {
@@ -194,6 +177,7 @@ const Main = () => {
   };
   
 
+
   return (
     <div className="d-flex justify-content-center align-items-center ">
       <div className="container-sm">
@@ -229,10 +213,35 @@ const Main = () => {
             )}
           </Button>
         </div>
-        <FormTodo />
-        <div className="summary-label">
-          <Button onClick={handleSort}>Sort</Button>
-          <p>{`${completedCount} de ${totalCount} completos`}</p>
+        {/* <FormTodo /> */}
+        <FormTodo
+          addTodo={(newTodo) => setFetchedTodos([...fetchedTodos, newTodo])}
+        />
+
+        <div className="summary-label d-flex justify-content-between align-items-center">
+            <Dropdown className="dropdown-sort">
+              Filtros:
+              <Dropdown.Toggle variant="secondary" id="dropdown-sort">
+                {sortOrder}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => handleSortSelection("A-Z")}>
+                  A-Z
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => handleSortSelection("Z-A")}>
+                  Z-A
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => handleSortSelection("new-old")}>
+                  New - Old
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => handleSortSelection("old-new")}>
+                  Old - New
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          <div className="completed-count">
+            <p>{`${completedCount} de ${totalCount} completos`}</p>
+          </div>
         </div>
         <div className="card-radio-container">
           <TransitionGroup className="input-container">
