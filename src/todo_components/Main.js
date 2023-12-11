@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import FormTodo from "./FormTodo";
 import { v4 as uuidv4 } from "uuid";
 import "../App.css";
-import { Button, Dropdown } from "react-bootstrap";
+import {Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -183,7 +183,7 @@ const Main = () => {
       <div className="container-sm">
         <div className="dropdown-wrapper">
           <Dropdown className="dropdown">
-            <Dropdown.Toggle variant="primary" id="dropdown-basic">
+            <Dropdown.Toggle  id="dropdown-basic">
               Options
             </Dropdown.Toggle>
 
@@ -201,7 +201,7 @@ const Main = () => {
           alt="Elecctro Logo"
         />
         <div className="btn-show-all">
-          <Button onClick={toggleShowCompleted}>
+          <button className="btn-gray" onClick={toggleShowCompleted}>
             {showCompleted ? (
               <>
                 <FontAwesomeIcon icon={faEyeSlash} />
@@ -211,7 +211,7 @@ const Main = () => {
                 <FontAwesomeIcon icon={faEye} />
               </>
             )}
-          </Button>
+          </button>
         </div>
         {/* <FormTodo /> */}
         <FormTodo
@@ -220,7 +220,6 @@ const Main = () => {
 
         <div className="summary-label d-flex justify-content-between align-items-center">
             <Dropdown className="dropdown-sort">
-              Filtros:
               <Dropdown.Toggle variant="secondary" id="dropdown-sort">
                 {sortOrder}
               </Dropdown.Toggle>
@@ -267,7 +266,7 @@ const Main = () => {
                           </label>
                           <label>
                             finished at:{" "}
-                            {new Date(todo.createdat).toLocaleString("pt-PT")}
+                            {new Date(todo.finishedat).toLocaleString("pt-PT")}
                           </label>
                         </div>
                       </div>

@@ -33,7 +33,8 @@ const Login = ({ history }) => {
 
   return (
     <>
-      <div className="container">
+      <div className="container-login">
+      <div className="form-section">
         <form onSubmit={handleLogin} className="form">
           <div className="form-group">
             <input
@@ -61,6 +62,10 @@ const Login = ({ history }) => {
             Don't have an account? <Link to="/register" className="register">Register</Link>
           </p>
         </div>
+      </div>
+      <div className="right-section">
+        <h1>Elecctro To Do Notepad</h1>
+      </div>
       </div>
     </>
   );
