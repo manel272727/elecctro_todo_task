@@ -2,12 +2,15 @@ import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "./style_credentials.css";
+import lockerTodoImage from "../assets/locker_todo.png";
 
 const Login = ({ history }) => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,18 +26,27 @@ const Login = ({ history }) => {
       if (response.status === 200) {
         navigate('/main'); 
       } else {
-        setError("Invalid credentials. Please try again.");
+        setError("Credenciais Inválidas");
+        setShowErrorAlert(true);
+        setTimeout(() => {
+          setShowErrorAlert(false);
+        }, 3000); // Hide alert after 3 seconds
       }
     } catch (error) {
-      console.error("Error logging in:", error);
-      setError("Login failed");
+      setError("Erro no Login");
+      setShowErrorAlert(true);
+      setTimeout(() => {
+        setShowErrorAlert(false);
+      }, 3000); // Hide alert after 3 seconds
     }
   };
+
 
   return (
     <>
       <div className="container-login">
       <div className="form-section">
+      <h1 className="signup-name">Login</h1>
         <form onSubmit={handleLogin} className="form">
           <div className="form-group">
             <input
@@ -55,16 +67,25 @@ const Login = ({ history }) => {
             />
           </div>
           <button type="submit" className="submit-button">Login</button>
-          {error && <p>{error}</p>}
+
+          {showErrorAlert && (
+            <div className="position-fixed bottom-0 start-0 p-3">
+              <div className="alert alert-danger" role="alert">
+                {error}
+              </div>
+            </div>
+          )}
         </form>
         <div className="register-link">
           <p>
-            Don't have an account? <Link to="/register" className="register">Register</Link>
+            Ainda não tem conta? <Link to="/register" className="register">Registo</Link>
           </p>
         </div>
       </div>
       <div className="right-section">
         <h1>Elecctro To Do Notepad</h1>
+        <img className="locker_icon" src={lockerTodoImage} alt="Locker Todo" />
+        <p>Para aceder ao seu to-do list, inicie sessão ou faça o registo de uma nova conta caso ainda não a tenha.</p>
       </div>
       </div>
     </>

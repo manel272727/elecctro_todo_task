@@ -3,7 +3,8 @@ import FormTodo from "./FormTodo";
 import { v4 as uuidv4 } from "uuid";
 import "../App.css";
 import {Dropdown } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { faEye, faEyeSlash, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import CardModal from "./ModalEdit";
@@ -18,9 +19,51 @@ const Main = () => {
   const [completedTodos, setCompletedTodos] = useState([]);
   const [sortOrder, setSortOrder] = useState("date");
   const navigate = useNavigate();
+  const [insertSuccess, setInsertSuccess] = useState(false);
+  const [deleteError, setDeleteError] = useState(false);
+
+
+  const showInsertAlert = () => {
+    setInsertSuccess(true);
+    setTimeout(() => {
+      setInsertSuccess(false);
+    }, 3000);
+  };
+
+  const showErrorAlert = () => {
+    setDeleteError(true);
+    setTimeout(() => {
+      setDeleteError(false);
+    }, 3000);
+  };
+
 
   
   const [selectedTodo, setSelectedTodo] = useState(null);
+
+ 
+  const [userData, setUserData] = useState([]);
+
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/api/userData");
+      if (!response.ok) {
+        throw new Error(`Failed to fetch user data: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setUserData(data);
+  
+      data.forEach((userDataItem) => {
+        console.log(userDataItem);
+      });
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   const fetchTodos = async () => {
     try {
@@ -101,10 +144,37 @@ const Main = () => {
       }
 
       setFetchedTodos(fetchedTodos.filter((todo) => todo.id !== id));
+      showInsertAlert(); 
     } catch (error) {
       console.error("Error deleting todo:", error);
+      showErrorAlert(); 
     }
   };
+
+  const deleteAccount = async () => {
+    try {
+      if (userData.length > 0) {
+        const userIdToDelete = userData[0].id;
+        const response = await fetch(`http://localhost:3001/api/deleteAccount/${userIdToDelete}`, {
+          method: "DELETE",
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Failed to delete account: ${response.statusText}`);
+        }
+  
+        navigate('/register');
+      } else {
+        console.error("No user data available to delete account");
+      }
+    } catch (error) {
+      console.error("Error deleting account:", error);
+    }
+  };
+  
+  
+  
+  
 
   const toggleShowCompleted = () => {
     setShowCompleted(!showCompleted);
@@ -123,22 +193,7 @@ const Main = () => {
       navigate('/');
     };
 
-    const deleteAccount = async () => {
-      try {
-        const response = await fetch("http://localhost:3001/api/deleteAccount", {
-          method: "DELETE",
-        });
-    
-        if (!response.ok) {
-          throw new Error(`Failed to delete account: ${response.statusText}`);
-        }
-    
-        navigate('/');
-      } catch (error) {
-        console.error("Error deleting account:", error);
-      }
-    };
-
+ 
   const openModal = (todo) => {
     setSelectedTodo(todo);
     setShowModal(true);
@@ -153,13 +208,20 @@ const Main = () => {
   const handleTodoCompletion = async (todoId) => {
     try {
       const isCompleted = completedTodos.includes(todoId);
+      
+      let bodyData;
+      if (isCompleted) {
+        bodyData = JSON.stringify({ complete: null });
+      } else {
+        bodyData = JSON.stringify({ complete: !isCompleted });
+      }
   
       const response = await fetch(`http://localhost:3001/api/todos/${todoId}/complete`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ complete: !isCompleted }),
+        body: bodyData,
       });
   
       if (!response.ok) {
@@ -171,10 +233,13 @@ const Main = () => {
           ? completedTodos.filter((id) => id !== todoId)
           : [...completedTodos, todoId]
       );
+
+      fetchTodos()
     } catch (error) {
       console.error('Error updating todo completion:', error);
     }
   };
+  
   
 
 
@@ -182,15 +247,15 @@ const Main = () => {
     <div className="d-flex justify-content-center align-items-center ">
       <div className="container-sm">
         <div className="dropdown-wrapper">
-          <Dropdown className="dropdown">
-            <Dropdown.Toggle  id="dropdown-basic">
-              Options
+          <Dropdown>
+            <Dropdown.Toggle id="dropdown-basic">
+              <FontAwesomeIcon size="xl" icon={faArrowRightFromBracket} />
             </Dropdown.Toggle>
 
-            <Dropdown.Menu>
+            <Dropdown.Menu className="exit-dropdown">
               <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
               <Dropdown.Item onClick={deleteAccount}>
-                Delete Account
+                Apagar Conta
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
@@ -213,31 +278,30 @@ const Main = () => {
             )}
           </button>
         </div>
-        {/* <FormTodo /> */}
         <FormTodo
           addTodo={(newTodo) => setFetchedTodos([...fetchedTodos, newTodo])}
         />
 
         <div className="summary-label d-flex justify-content-between align-items-center">
-            <Dropdown className="dropdown-sort">
-              <Dropdown.Toggle variant="secondary" id="dropdown-sort">
-                {sortOrder}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => handleSortSelection("A-Z")}>
-                  A-Z
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleSortSelection("Z-A")}>
-                  Z-A
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleSortSelection("new-old")}>
-                  New - Old
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleSortSelection("old-new")}>
-                  Old - New
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+          <Dropdown className="dropdown-sort">
+            <Dropdown.Toggle variant="secondary" id="dropdown-sort">
+              {sortOrder}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => handleSortSelection("A-Z")}>
+                A-Z
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleSortSelection("Z-A")}>
+                Z-A
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleSortSelection("new-old")}>
+                New - Old
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleSortSelection("old-new")}>
+                Old - New
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
           <div className="completed-count">
             <p>{`${completedCount} de ${totalCount} completos`}</p>
           </div>
@@ -258,17 +322,6 @@ const Main = () => {
                     <div className="card" onClick={() => openModal(todo)}>
                       <div className="card-content">
                         <div className="todo-body">{todo.todo_body}</div>
-                        <div className="todo-separator">|</div>
-                        <div className="todo-dates">
-                          <label>
-                            created at:{" "}
-                            {new Date(todo.createdat).toLocaleString("pt-PT")}
-                          </label>
-                          <label>
-                            finished at:{" "}
-                            {new Date(todo.finishedat).toLocaleString("pt-PT")}
-                          </label>
-                        </div>
                       </div>
                     </div>
                     <div
@@ -286,7 +339,24 @@ const Main = () => {
               ))}
             </div>
           </TransitionGroup>
+          
         </div>
+
+        <div className="position-fixed bottom-0 start-0 p-3">
+        {insertSuccess && (
+          <div className="alert alert-success" role="alert">
+            Todo successfully deleted!
+          </div>
+        )}
+
+        {deleteError && (
+          <div className="alert alert-danger" role="alert">
+            Error deleting todo!
+          </div>
+        )}
+      </div>
+
+
 
         {selectedTodo && (
           <CardModal
@@ -296,6 +366,8 @@ const Main = () => {
           />
         )}
       </div>
+
+      
     </div>
   );
 };

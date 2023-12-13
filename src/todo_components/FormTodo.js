@@ -21,9 +21,8 @@ const FormTodo = ({ addTodo }) => {
         throw new Error('Failed to add todo');
       }
 
-      // Get the newly added todo from the response
       const newTodo = await response.json();
-      addTodo(newTodo); // Update the list of todos in Main component
+      addTodo(newTodo); 
       setValue("");      
     } catch (error) {
       console.error('Error adding todo:', error);
@@ -47,7 +46,7 @@ const FormTodo = ({ addTodo }) => {
           required
         />
         <button
-          className="circular-button" // Apply the circular-button class here
+          className="circular-button" 
           onClick={handleButtonClick}
           type="submit"
         >

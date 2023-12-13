@@ -2,24 +2,34 @@
   margin: 0;
   padding: 0;
 }
-.dropdown-sort{
-  width:17%;
-  text-align: center;
-}
+
 
 #dropdown-sort{
   background-color: gray;
   border: none;
   color: white;
+  text-align: center;
+  width: 7rem;
+  height: 2rem;
+
 }
 
 #dropdown-basic{
-  background-color: gray;
-  border-color: gray;
+  background-color: transparent;
+  border-color: transparent;
+  color: black;
 }
 
 #dropdown-basic:hover{
-  background-color: gray;
+  background-color: transparent;
+}
+
+.dropdown-toggle::after {   
+  display: none;
+}
+
+.exit-dropdown{
+  margin-left: 900px;
 }
 
 
@@ -49,7 +59,6 @@ body {
 }
 
 .app-wrapper {
-  /* background-color: grey; */
   max-width: 80%;
   padding: 150px;
   height: 800px;
@@ -120,21 +129,20 @@ header h1 {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: #28a745; /* Green color */
+  background-color: #28a745;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
   cursor: pointer;
-  border: none; /* Remove the border if you don't want any */
-  transition: background-color 0.3s ease; /* Optional: Add a transition effect */
+  border: none;
+  transition: background-color 0.3s ease;
 }
 
 .circular-button:hover {
-  background-color: #218838; /* Change the hover color if needed */
+  background-color: #218838; 
 }
 
-/* Optional: Change the color of the plus sign */
 .circular-button svg {
   color: white;
 }
@@ -146,6 +154,7 @@ header h1 {
 .btn-gray{
   background-color: gray;
   border-radius: 1rem;
+  width: 5rem;
 }
 
 .btn-gray:hover {
@@ -178,11 +187,6 @@ header h1 {
   color: green;
   margin-right: 10px;
 }
-
-
-
-
-
 
 .input-container {
   width: 100%;
@@ -269,7 +273,6 @@ button :focus {
   transition: opacity 300ms;
 }
 
-/* END OF TRANSITIONS  */
 
 .card-radio-container {
   display: flex;
@@ -309,6 +312,7 @@ button :focus {
 .radio-button input[type="checkbox"] {
   margin-right: 5px; 
   width: 80%;
+
 }
 
 .summary-label {
@@ -343,6 +347,11 @@ button :focus {
   align-items: center;
   justify-content: center;
   text-align: center;
+  margin-left: 25px;
+}
+
+.exit-dropdown{
+  margin-right: -60%;
 }
 
 
