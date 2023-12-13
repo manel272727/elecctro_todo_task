@@ -30,14 +30,14 @@ const Login = ({ history }) => {
         setShowErrorAlert(true);
         setTimeout(() => {
           setShowErrorAlert(false);
-        }, 3000); // Hide alert after 3 seconds
+        }, 3000); 
       }
     } catch (error) {
       setError("Erro no Login");
       setShowErrorAlert(true);
       setTimeout(() => {
         setShowErrorAlert(false);
-      }, 3000); // Hide alert after 3 seconds
+      }, 3000);
     }
   };
 
@@ -85,7 +85,7 @@ const Login = ({ history }) => {
       <div className="right-section">
         <h1>Elecctro To Do Notepad</h1>
         <img className="locker_icon" src={lockerTodoImage} alt="Locker Todo" />
-        <p>Para aceder ao seu to-do list, inicie sessão ou faça o registo de uma nova conta caso ainda não a tenha.</p>
+        <p>Para aceder ao seu to-do list, inicie sessão ou faça o registo de uma nova conta caso ainda não tenha.</p>
       </div>
       </div>
     </>

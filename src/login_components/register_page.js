@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import "./style_credentials.css";
 import lockerTodoImage from "../assets/register_todo.png";
 
-const SignUp = ({ history }) => {
+const SignUp = () => {
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -89,7 +89,7 @@ const SignUp = ({ history }) => {
           </div>
         </div>
         <div className="right-section">
-          <h1>Bem-Vindo ao Elecctro To Do </h1>
+          <h1>Bem-Vindo ao Elecctro To-Do </h1>
           <p>Este é um portal onde pode organizar as suas tarefas.</p>
           <img
             className="locker_icon"

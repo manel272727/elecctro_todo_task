@@ -172,9 +172,6 @@ const Main = () => {
     }
   };
   
-  
-  
-  
 
   const toggleShowCompleted = () => {
     setShowCompleted(!showCompleted);
@@ -282,7 +279,9 @@ const Main = () => {
           addTodo={(newTodo) => setFetchedTodos([...fetchedTodos, newTodo])}
         />
 
-        <div className="summary-label d-flex justify-content-between align-items-center">
+
+        <div className="summary-label  align-items-center">
+          
           <Dropdown className="dropdown-sort">
             <Dropdown.Toggle variant="secondary" id="dropdown-sort">
               {sortOrder}
@@ -345,13 +344,13 @@ const Main = () => {
         <div className="position-fixed bottom-0 start-0 p-3">
         {insertSuccess && (
           <div className="alert alert-success" role="alert">
-            Todo successfully deleted!
+            To-do apagado com sucesso!
           </div>
         )}
 
         {deleteError && (
           <div className="alert alert-danger" role="alert">
-            Error deleting todo!
+            Error ao apagar to-do!
           </div>
         )}
       </div>
