@@ -91,7 +91,7 @@ const SignUp = () => {
         <div className="right-section">
           <h1>Bem-Vindo ao Elecctro To-Do </h1>
           <p>Este é um portal onde pode organizar as suas tarefas.</p>
-          <img
+          <img 
             className="locker_icon"
             src={lockerTodoImage}
             alt="Locker Todo"
