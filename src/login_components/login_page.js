@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import "./style_credentials.css";
 import lockerTodoImage from "../assets/locker_todo.png";
 
+
 const Login = ({ history }) => {
   const emailRef = useRef();
   const passwordRef = useRef();

@@ -359,7 +359,9 @@ button :focus {
 @media screen and (max-width: 768px) {
   .container-sm {
     min-width: unset; 
+    width: 350px;
     padding: 0 10px; 
+    margin-top: -90px;
   }
 
     .card {
@@ -371,7 +373,16 @@ button :focus {
       margin-top: 10px; 
     }
 
+    #dropdown-basic{
+      background-color: transparent;
+      border-color: transparent;
+      color: black;
+      margin-left: -50px;
+    }
+
+    .logo-elecctro {
+      width: 120px;
+    }
+
 }
-
-
 
