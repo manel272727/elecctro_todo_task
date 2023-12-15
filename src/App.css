@@ -360,6 +360,7 @@ button :focus {
   .container-sm {
     min-width: unset; 
     width: 350px;
+    height: 10px;
     padding: 0 10px; 
     margin-top: -90px;
   }
@@ -384,5 +385,11 @@ button :focus {
       width: 120px;
     }
 
+    .modal-content{
+      width: 400px;
+    }
+
+   
+    
 }
 
