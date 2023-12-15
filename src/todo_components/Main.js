@@ -106,10 +106,10 @@ const Main = () => {
           b.todo_body.localeCompare(a.todo_body, "en", { sensitivity: "base" })
         );
         break;
-      case "new-old":
+      case "novo-antigo":
         sortedTodos.sort((a, b) => new Date(b.createdat) - new Date(a.createdat));
         break;
-      case "old-new":
+      case "antigo-novo":
         sortedTodos.sort((a, b) => new Date(a.createdat) - new Date(b.createdat));
         break;
       default:
@@ -293,11 +293,11 @@ const Main = () => {
               <Dropdown.Item onClick={() => handleSortSelection("Z-A")}>
                 Z-A
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => handleSortSelection("new-old")}>
-                New - Old
+              <Dropdown.Item onClick={() => handleSortSelection("novo-antigo")}>
+                Novo - Antigo
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => handleSortSelection("old-new")}>
-                Old - New
+              <Dropdown.Item onClick={() => handleSortSelection("antigo-novo")}>
+                Antigo - Novo
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
