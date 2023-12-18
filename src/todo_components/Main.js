@@ -17,7 +17,7 @@ const Main = () => {
   const [showCompleted, setShowCompleted] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [completedTodos, setCompletedTodos] = useState([]);
-  const [sortOrder, setSortOrder] = useState("date");
+  const [sortOrder, setSortOrder] = useState("Filtro");
   const navigate = useNavigate();
   const [insertSuccess, setInsertSuccess] = useState(false);
   const [deleteError, setDeleteError] = useState(false);
@@ -205,16 +205,10 @@ const Main = () => {
   const handleTodoCompletion = async (todoId) => {
     try {
       const isCompleted = completedTodos.includes(todoId);
-      
-      let bodyData;
-      if (isCompleted) {
-        bodyData = JSON.stringify({ complete: null });
-      } else {
-        bodyData = JSON.stringify({ complete: !isCompleted });
-      }
+      const bodyData = JSON.stringify({ complete: !isCompleted });
   
       const response = await fetch(`http://localhost:3001/api/todos/${todoId}/complete`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -230,8 +224,8 @@ const Main = () => {
           ? completedTodos.filter((id) => id !== todoId)
           : [...completedTodos, todoId]
       );
-
-      fetchTodos()
+  
+      fetchTodos();
     } catch (error) {
       console.error('Error updating todo completion:', error);
     }

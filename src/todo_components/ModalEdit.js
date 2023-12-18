@@ -34,7 +34,7 @@ const CardModal = ({ show, handleClose, todo }) => {
       const response = await fetch(
         `http://localhost:3001/api/todos/${todo.id}`,
         {
-          method: "PUT",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },

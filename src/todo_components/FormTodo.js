@@ -41,7 +41,7 @@ const FormTodo = ({ addTodo }) => {
           type="text"
           className="form-control"
           value={value}
-          placeholder="Escreve aqui as tuas tarefas"
+          placeholder="Escreva aqui as suas tarefas"
           onChange={(e) => setValue(e.target.value)}
           required
         />

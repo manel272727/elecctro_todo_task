@@ -56,7 +56,7 @@ const SignUp = () => {
               <div className="form-group">
                 <input
                   className="input-field fields"
-                  placeholder="Name"
+                  placeholder="Nome"
                   type="text"
                   ref={nameRef}
                 />
